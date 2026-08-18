@@ -143,41 +143,40 @@
         </div>
 
         <div class="row g-4">
-            @forelse($services as $service)
-            <div class="col-md-6 col-lg-4">
-                <div class="card-service fade-in-up">
-                    <div class="icon-wrap">
-                        <i class="bi {{ $service->icon ?? 'bi-building' }}"></i>
+            @if($services->isNotEmpty())
+                @foreach($services as $service)
+                <div class="col-md-6 col-lg-4">
+                    <div class="card-service fade-in-up">
+                        <div class="icon-wrap">
+                            <i class="bi {{ $service->icon ?? 'bi-building' }}"></i>
+                        </div>
+                        <h5 class="mb-2">{{ $service->title }}</h5>
+                        <p style="color:var(--gray-600); font-size:0.9rem; margin-bottom:1rem;">
+                            {{ Str::limit($service->short_description, 120) }}
+                        </p>
+                        <a href="{{ route('services.show', $service->slug) }}"
+                           style="color:var(--gold-dark); font-family:'Montserrat',sans-serif; font-weight:600; font-size:0.85rem;">
+                            Selengkapnya <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
                     </div>
-                    <h5 class="mb-2">{{ $service->title }}</h5>
-                    <p style="color:var(--gray-600); font-size:0.9rem; margin-bottom:1rem;">
-                        {{ Str::limit($service->short_description, 120) }}
-                    </p>
-                    <a href="{{ route('services.show', $service->slug) }}"
-                       style="color:var(--gold-dark); font-family:'Montserrat',sans-serif; font-weight:600; font-size:0.85rem;">
-                        Selengkapnya <i class="bi bi-arrow-right ms-1"></i>
-                    </a>
                 </div>
-            </div>
-            @empty
-            {{-- Placeholder saat belum ada data --}}
-            @foreach(['Jasa Arsitek', 'Kontraktor Bangunan', 'Desain Interior', 'Renovasi', 'RAB & Estimasi', 'Manajemen Proyek'] as $i => $title)
-            <div class="col-md-6 col-lg-4">
-                <div class="card-service fade-in-up delay-{{ $i % 4 }}">
-                    <div class="icon-wrap">
-                        <i class="bi {{ ['bi-building', 'bi-tools', 'bi-palette', 'bi-house-gear', 'bi-calculator', 'bi-clipboard-check'][$i] }}"></i>
+                @endforeach
+            @else
+                @foreach(['Jasa Arsitek','Kontraktor Bangunan','Desain Interior','Renovasi','RAB & Estimasi','Manajemen Proyek'] as $svc)
+                <div class="col-md-6 col-lg-4">
+                    <div class="card-service fade-in-up">
+                        <div class="icon-wrap"><i class="bi bi-building"></i></div>
+                        <h5 class="mb-2">{{ $svc }}</h5>
+                        <p style="color:var(--gray-600); font-size:0.9rem; margin-bottom:1rem;">
+                            Kami menyediakan layanan {{ strtolower($svc) }} profesional dengan tim berpengalaman di Surabaya.
+                        </p>
+                        <a href="{{ route('services.index') }}" style="color:var(--gold-dark); font-family:'Montserrat',sans-serif; font-weight:600; font-size:0.85rem;">
+                            Selengkapnya <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
                     </div>
-                    <h5 class="mb-2">{{ $title }}</h5>
-                    <p style="color:var(--gray-600); font-size:0.9rem; margin-bottom:1rem;">
-                        Kami menyediakan layanan {{ strtolower($title) }} profesional dengan tim berpengalaman di Surabaya dan sekitarnya.
-                    </p>
-                    <a href="{{ route('services.index') }}" style="color:var(--gold-dark); font-family:'Montserrat',sans-serif; font-weight:600; font-size:0.85rem;">
-                        Selengkapnya <i class="bi bi-arrow-right ms-1"></i>
-                    </a>
                 </div>
-            </div>
-            @endforeach
-            @endforelse
+                @endforeach
+            @endif
         </div>
     </div>
 </section>
@@ -201,36 +200,37 @@
         </div>
 
         <div class="row g-3">
-            @forelse($portfolios as $portfolio)
-            <div class="col-6 col-md-4 col-lg-4">
-                <a href="{{ route('portfolio.show', $portfolio->slug) }}" class="card-portfolio">
-                    @if($portfolio->thumbnail)
-                    <img src="{{ asset('storage/'.$portfolio->thumbnail) }}"
-                         alt="{{ $portfolio->title }}" loading="lazy">
-                    @else
-                    <div style="aspect-ratio:4/3; background:var(--gray-100); display:flex; align-items:center; justify-content:center;">
-                        <i class="bi bi-image" style="font-size:3rem; color:var(--gray-400);"></i>
-                    </div>
-                    @endif
-                    <div class="card-portfolio-overlay">
-                        <span class="badge-cat">{{ $portfolio->category }}</span>
-                        <h5>{{ $portfolio->title }}</h5>
-                    </div>
-                </a>
-            </div>
-            @empty
-            {{-- Placeholder --}}
-            @foreach(range(1,6) as $i)
-            <div class="col-6 col-md-4">
-                <div style="aspect-ratio:4/3; background:var(--gray-100); border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center; border:1px dashed var(--gray-200);">
-                    <div class="text-center">
-                        <i class="bi bi-image" style="font-size:2rem; color:var(--gray-400);"></i>
-                        <p style="font-size:0.8rem; color:var(--gray-400); margin:0.5rem 0 0;">Foto Proyek {{ $i }}</p>
+            @if($portfolios->isNotEmpty())
+                @foreach($portfolios as $portfolio)
+                <div class="col-6 col-md-4 col-lg-4">
+                    <a href="{{ route('portfolio.show', $portfolio->slug) }}" class="card-portfolio">
+                        @if($portfolio->thumbnail)
+                        <img src="{{ asset('storage/'.$portfolio->thumbnail) }}"
+                             alt="{{ $portfolio->title }}" loading="lazy">
+                        @else
+                        <div style="aspect-ratio:4/3; background:var(--gray-100); display:flex; align-items:center; justify-content:center;">
+                            <i class="bi bi-image" style="font-size:3rem; color:var(--gray-400);"></i>
+                        </div>
+                        @endif
+                        <div class="card-portfolio-overlay">
+                            <span class="badge-cat">{{ $portfolio->category }}</span>
+                            <h5>{{ $portfolio->title }}</h5>
+                        </div>
+                    </a>
+                </div>
+                @endforeach
+            @else
+                @foreach([1,2,3,4,5,6] as $i)
+                <div class="col-6 col-md-4">
+                    <div style="aspect-ratio:4/3; background:var(--gray-100); border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center; border:1px dashed var(--gray-200);">
+                        <div class="text-center">
+                            <i class="bi bi-image" style="font-size:2rem; color:var(--gray-400);"></i>
+                            <p style="font-size:0.8rem; color:var(--gray-400); margin:0.5rem 0 0;">Foto Proyek {{ $i }}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            @endforeach
-            @endforelse
+                @endforeach
+            @endif
         </div>
     </div>
 </section>

@@ -45,23 +45,23 @@
     {{-- ─── Schema Markup JSON-LD ─── --}}
     @if(Route::is('home'))
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "GeneralContractor",
-        "name": "{{ $settings->company_name ?? config('app.name') }}",
-        "url": "{{ url('/') }}",
-        "telephone": "{{ $settings->whatsapp_number ?? '' }}",
-        "email": "{{ $settings->email ?? '' }}",
-        "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Surabaya",
-            "addressRegion": "Jawa Timur",
-            "addressCountry": "ID",
-            "streetAddress": "{{ $settings->address ?? '' }}"
-        },
-        "description": "{{ $settings->company_description ?? 'Solusi rancang bangun terpercaya di Surabaya.' }}",
-        "foundingDate": "{{ $settings->founded_year ?? '' }}"
-    }
+    {!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'GeneralContractor',
+        'name' => $settings->company_name ?? config('app.name'),
+        'url' => url('/'),
+        'telephone' => $settings->whatsapp_number ?? '',
+        'email' => $settings->email ?? '',
+        'address' => [
+            '@type' => 'PostalAddress',
+            'addressLocality' => 'Surabaya',
+            'addressRegion' => 'Jawa Timur',
+            'addressCountry' => 'ID',
+            'streetAddress' => $settings->address ?? ''
+        ],
+        'description' => $settings->company_description ?? 'Solusi rancang bangun terpercaya di Surabaya.',
+        'foundingDate' => (string)($settings->founded_year ?? '')
+    ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!}
     </script>
     @endif
 
