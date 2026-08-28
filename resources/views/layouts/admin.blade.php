@@ -217,8 +217,8 @@
 
         <div class="sidebar-label">Operasional</div>
 
-        <a href="{{ route('admin.messages.index') }}"
-           class="nav-link {{ Route::is('admin.messages.*') ? 'active' : '' }}">
+        <a href="{{ route('admin.pesan.index') }}"
+           class="nav-link {{ Route::is('admin.pesan.*') || Route::is('admin.messages.*') ? 'active' : '' }}">
             <i class="bi bi-inbox"></i> Pesan Masuk
             @php $unread = \App\Models\Message::unread()->count(); @endphp
             @if($unread > 0)
@@ -227,7 +227,7 @@
         </a>
 
         <a href="{{ route('admin.settings.edit') }}"
-           class="nav-link {{ Route::is('admin.settings.*') ? 'active' : '' }}">
+           class="nav-link {{ Route::is('admin.settings.*') || Route::is('admin.pengaturan.*') ? 'active' : '' }}">
             <i class="bi bi-gear"></i> Pengaturan
         </a>
 

@@ -74,9 +74,9 @@
 ════════════════════════════════════════════ --}}
 <nav class="navbar navbar-main navbar-expand-lg fixed-top" id="mainNavbar">
     <div class="container">
-        <a class="navbar-brand" href="{{ route('home') }}">
+        <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
             @if(!empty($settings->logo))
-                <img src="{{ asset('storage/'.$settings->logo) }}" alt="{{ $settings->company_name }}" height="40" class="me-2">
+                <img src="{{ asset('storage/'.$settings->logo) }}" alt="{{ $settings->company_name ?? 'Kontraktor Surabaya' }}" class="navbar-logo me-2">
             @else
                 <span>Kontraktor</span><span>Surabaya</span>
             @endif
@@ -128,7 +128,11 @@
         <div class="row g-4">
             <div class="col-lg-4">
                 <div class="footer-brand mb-3">
-                    <span>Kontraktor</span><span>Surabaya</span>
+                    @if(!empty($settings->logo))
+                        <img src="{{ asset('storage/'.$settings->logo) }}" alt="{{ $settings->company_name ?? 'Kontraktor Surabaya' }}" class="footer-logo mb-2">
+                    @else
+                        <span>Kontraktor</span><span>Surabaya</span>
+                    @endif
                 </div>
                 <p>{{ $settings->company_tagline ?? 'Membangun dengan Kualitas, Ketepatan, dan Kepercayaan.' }}</p>
                 <div class="d-flex gap-2 mt-3">

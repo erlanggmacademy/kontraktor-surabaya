@@ -58,13 +58,19 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::resource('artikel', AdminArticleController::class);
 
     // Kelola Inbox Pesan
-    Route::get('pesan', [AdminMessageController::class, 'index'])->name('messages.index');
-    Route::get('pesan/{message}', [AdminMessageController::class, 'show'])->name('messages.show');
-    Route::delete('pesan/{message}', [AdminMessageController::class, 'destroy'])->name('messages.destroy');
+    Route::get('pesan', [AdminMessageController::class, 'index'])->name('pesan.index');
+    Route::get('pesan/{message}', [AdminMessageController::class, 'show'])->name('pesan.show');
+    Route::delete('pesan/{message}', [AdminMessageController::class, 'destroy'])->name('pesan.destroy');
+    // Alias route messages
+    Route::get('messages', [AdminMessageController::class, 'index'])->name('messages.index');
+    Route::get('messages/{message}', [AdminMessageController::class, 'show'])->name('messages.show');
+    Route::delete('messages/{message}', [AdminMessageController::class, 'destroy'])->name('messages.destroy');
 
     // Pengaturan Website
     Route::get('pengaturan', [AdminSettingController::class, 'edit'])->name('settings.edit');
     Route::put('pengaturan', [AdminSettingController::class, 'update'])->name('settings.update');
+    Route::get('pengaturan-web', [AdminSettingController::class, 'edit'])->name('pengaturan.edit');
+    Route::put('pengaturan-web', [AdminSettingController::class, 'update'])->name('pengaturan.update');
 });
 
 // ═══════════════════════════════════════════════════════

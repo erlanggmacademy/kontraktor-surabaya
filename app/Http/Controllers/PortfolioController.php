@@ -10,7 +10,7 @@ class PortfolioController extends Controller
     public function index()
     {
         $settings   = Setting::getSettings();
-        $categories = Portfolio::active()->distinct()->pluck('category');
+        $categories = Portfolio::where('is_active', true)->distinct()->pluck('category')->filter();
         $portfolios = Portfolio::active()
                                ->when(request('category'), fn($q, $cat) => $q->byCategory($cat))
                                ->paginate(12);

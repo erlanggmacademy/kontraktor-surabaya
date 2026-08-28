@@ -10,7 +10,7 @@ class ArticleController extends Controller
     public function index()
     {
         $settings   = Setting::getSettings();
-        $categories = Article::published()->distinct()->pluck('category')->filter();
+        $categories = Article::where('is_published', true)->distinct()->pluck('category')->filter();
         $articles   = Article::published()
                              ->when(request('category'), fn($q, $cat) => $q->byCategory($cat))
                              ->paginate(9);
